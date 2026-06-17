@@ -91,9 +91,6 @@ AI-ATS-Analyzer/
 <img width="1920" height="1080" alt="Screenshot 2026-06-17 221647" src="https://github.com/user-attachments/assets/2bbfb706-2ee3-4cf1-b313-1fb1558c3e1c" />
 </p>
 
-```md
-![App Preview](preview.png)
-```
 
 ---
 
