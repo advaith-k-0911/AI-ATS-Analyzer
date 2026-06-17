@@ -13,7 +13,7 @@
 - NLP
 
 ## Demo
-[Hugging Face Link]
+https://huggingface.co/spaces/Advaith0911/resume
 
 ## Installation
 pip install -r requirements.txt
