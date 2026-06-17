@@ -149,7 +149,7 @@ It also showcases how AI can automate early-stage recruitment workflows.
 
 ## 👨‍💻 Author
 **Advaith K**  
-BTech Cybersecurity Student | AI/ML Enthusiast
+BTech Cybersecurity Student 
 
 GitHub: https://github.com/advaith-k-0911
 
