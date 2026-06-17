@@ -1,6 +1,5 @@
 # AI ATS Analyzer
-## Preview
-![App Screenshot](Screenshot 2026-06-17 221647.png)
+
 
 ## Features
 - Resume parsing (PDF/DOCX)
