@@ -156,4 +156,16 @@ GitHub: https://github.com/advaith-k-0911
 ---
 
 ## 📜 License
-Licensed under the MIT License.
+
+This project is licensed under the **MIT License**.
+
+You are free to:
+- ✅ Use
+- ✅ Modify
+- ✅ Distribute
+- ✅ Use commercially
+
+Just make sure to give proper credit to the original author.
+
+Made with ☕, Python, and sleep deprivation by **Advaith K**
+<3
