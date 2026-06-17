@@ -8,11 +8,6 @@ An AI-powered resume screening tool that simulates an Applicant Tracking System 
 An AI-powered resume screening tool that simulates an **Applicant Tracking System (ATS)** using **LLMs** to analyze resumes against job descriptions and generate actionable feedback.
 
 ---
-<h2>Preview</h2>
-<p align="center">
-<img width="1920" height="1080" alt="Screenshot 2026-06-17 221647" src="https://github.com/user-attachments/assets/2bbfb706-2ee3-4cf1-b313-1fb1558c3e1c" />
-</p>
----
 
 ## 🚀 Live Demo
 🔗 Hugging Face Deployment: https://huggingface.co/spaces/Advaith0911/resume
@@ -92,7 +87,9 @@ AI-ATS-Analyzer/
 
 ## 📷 Preview
 
-Add your screenshot here:
+<p align="center">
+<img width="1920" height="1080" alt="Screenshot 2026-06-17 221647" src="https://github.com/user-attachments/assets/2bbfb706-2ee3-4cf1-b313-1fb1558c3e1c" />
+</p>
 
 ```md
 ![App Preview](preview.png)
