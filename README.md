@@ -1,9 +1,20 @@
----
-title: Resume
-sdk: streamlit
-app_file: app.py
-sdk_version: 1.58.0
----
+# AI ATS Analyzer
 
-# AI ATS Resume Analyzer
-This app analyzes resumes using Groq + Llama.
+## Features
+- Resume parsing (PDF/DOCX)
+- ATS score calculation
+- Skill gap analysis
+- AI-powered suggestions
+
+## Tech Stack
+- Python
+- Streamlit
+- Groq API
+- NLP
+
+## Demo
+[Hugging Face Link]
+
+## Installation
+pip install -r requirements.txt
+streamlit run app.py
