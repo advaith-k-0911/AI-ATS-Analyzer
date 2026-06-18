@@ -6,6 +6,25 @@ from groq import Groq
 from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
+
+DEFAULT_MODEL = "llama-3.3-70b-versatile"
+DEFAULT_TEMPERATURE = 0.2
+
+
+def build_application_context(target_role=None, experience_level=None, focus_area=None):
+    """Create a short context block from user-facing personalization choices."""
+    context_lines = []
+
+    if target_role and target_role.strip():
+        context_lines.append(f"Target role: {target_role.strip()}")
+    if experience_level and experience_level != "Not specified":
+        context_lines.append(f"Experience level: {experience_level}")
+    if focus_area:
+        context_lines.append(f"Main focus requested by user: {focus_area}")
+
+    return "\n".join(context_lines) if context_lines else "No extra user preferences provided."
+
+
 def extract_text_from_pdf(file_path):
     """Extract text from a PDF file using pypdf."""
     text = ""
@@ -61,24 +80,37 @@ def parse_resume_file(uploaded_file):
             os.remove(temp_path)
             
     return text
-def analyze_resume_ats(resume_text, job_desc_text, api_key=None):
+def analyze_resume_ats(
+    resume_text,
+    job_desc_text,
+    api_key=None,
+    target_role=None,
+    experience_level=None,
+    focus_area=None
+):
     """
-    Sends the resume and job description to Groq Llama 3.3
-    and returns a structured JSON payload of the ATS analysis.
+    Review a resume against a job description and return a structured
+    JSON payload for the Streamlit results screen.
     """
     # Use provided key or fall back to environment variable
     key = api_key or os.getenv("GROQ_API_KEY")
     if not key:
-        raise ValueError("Groq API Key not found. Please provide it or set GROQ_API_KEY in .env.")
+        raise ValueError("The analysis service is not configured yet.")
     client = Groq(api_key=key)
+    application_context = build_application_context(target_role, experience_level, focus_area)
     system_prompt = (
-        "You are an expert Applicant Tracking System (ATS) algorithm, HR consultant, and technical resume writer. "
+        "You are an expert Applicant Tracking System (ATS) reviewer, HR consultant, and resume coach. "
         "Your task is to perform a highly thorough, accurate, and professional ATS audit of the user's resume against "
         "the provided job description. You must output the analysis strictly in JSON format. Do not write any conversational "
-        "text before or after the JSON payload. Ensure all JSON fields are populated accurately."
+        "text before or after the JSON payload. Ensure all JSON fields are populated accurately. "
+        "Keep the wording practical and applicant-friendly. Do not mention model names, API providers, temperature, prompts, "
+        "JSON schema details, or backend implementation in any user-facing response field."
     )
     user_prompt = f"""
 Analyze the resume and job description below.
+Use the applicant preferences to make the recommendations more specific.
+--- APPLICANT PREFERENCES ---
+{application_context}
 --- RESUME ---
 {resume_text}
 --- JOB DESCRIPTION ---
@@ -91,7 +123,7 @@ You must return a JSON object with the following exact keys and types:
   "formatting_score": <int, 0 to 100 representing layout/font/readability elements>,
   "keyword_score": <int, 0 to 100 representing presence of core resume keywords>,
   "experience_score": <int, 0 to 100 representing relevance of past roles to requirements>,
-  "skills_score": <int, 0 to 100 representing technical/soft skills alignment>,
+  "skills_score": <int, 0 to 100 representing job-related and soft skills alignment>,
   "analysis_summary": "<string, professional summary of candidate fit, highlighting core alignments and main gaps>",
   "key_strengths": ["<string>", "<string>", ...],
   "critical_issues": ["<string>", "<string>", ...],
@@ -130,7 +162,7 @@ You must return a JSON object with the following exact keys and types:
   ],
   "interview_questions": [
     {{
-      "question": "<string, tailored behavioral or technical question to ask this candidate during interview based on gaps>",
+      "question": "<string, tailored behavioral or role-specific question to ask this candidate during interview based on gaps>",
       "rationale": "<string, why this question is relevant to test the gap>"
     }},
     ...
@@ -140,18 +172,18 @@ You must return a JSON object with the following exact keys and types:
 """
     try:
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=DEFAULT_MODEL,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
             response_format={"type": "json_object"},
-            temperature=0.2
+            temperature=DEFAULT_TEMPERATURE
         )
         
         result_content = response.choices[0].message.content
         return json.loads(result_content)
-    except json.JSONDecodeError as je:
-        raise Exception(f"Failed to parse AI response as JSON: {str(je)}. Response was: {result_content}")
-    except Exception as e:
-        raise Exception(f"Error connecting to Groq API: {str(e)}")
+    except json.JSONDecodeError:
+        raise Exception("The analysis returned an unexpected format. Please try again.")
+    except Exception:
+        raise Exception("Could not complete the analysis right now. Please try again in a minute.")
