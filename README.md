@@ -88,7 +88,7 @@ AI-ATS-Analyzer/
 ## 📷 Preview
 
 <p align="center">
-<img width="1920" height="1080" alt="Screenshot 2026-06-17 230543" src="https://github.com/user-attachments/assets/7a3c35a1-eb5a-437f-8f35-9a052d7413a4" />
+<img width="1920" height="1080" alt="Screenshot 2026-06-18 115617" src="https://github.com/user-attachments/assets/3b979cc5-8af0-442c-96d1-2cf709e3cfca" />
 
 </p>
 
